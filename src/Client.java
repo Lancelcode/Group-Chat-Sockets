@@ -1,9 +1,7 @@
 import java.io.IOException;
 import java.net.Socket;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
+import java.util.Scanner;
 
 public class Client {
     private Socket socket;
@@ -57,6 +55,16 @@ public class Client {
                 }
             }
         }).start();
+    }
+
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your username: ");
+        String username = scanner.nextLine();
+        Socket socket = new Socket("localhost", 1234);// Connect to the server at localhost on port 1234
+        Client client = new Client(socket, username);// Create a new client instance with the socket and username
+        client.listenForMessage();// Start listening for messages from the server
+        client.sendMessage();// Start sending messages to the server
     }
     
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
