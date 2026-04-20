@@ -10,6 +10,7 @@ public class ClientHandler implements Runnable {
     // You can add fields for the client's socket, input/output streams, etc. 
     // Basically anything you need to share with other users in the same server 
     // For example, you can have a list of all connected clients to broadcast messages to them.
+    public static ArrayList<ClientHandler> clienHandlers = new ArrayList<>();
     Private Socket socket;
     Private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
@@ -33,12 +34,23 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
-        
-    }
 
+    }
+    
     @Override
     public void run() {
         // Handle the client's requests here. This is where you would read from the client's input stream,
         // process the request, and write back to the client's output stream.
+        String messageFromClient;
+        while (socket.isConnected()) {
+            try {
+                messageFromClient = bufferedReader.readline(); // Read a message from the client's input stream
+                broadcastMessage(messageFromClient);// Broadcast the message to all other clients (TODO: implement the broadcastMessage method)
+            } catch (IOException e) {
+                closeEverything(socket, bufferedReader, bufferedWriter);
+                break;// If an exception occurs (e.g., the client disconnects), close the client's resources and break the loop
+
+            }
+        }
     }
 }
