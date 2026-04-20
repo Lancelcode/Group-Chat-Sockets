@@ -45,11 +45,25 @@ public class ClientHandler implements Runnable {
         while (socket.isConnected()) {
             try {
                 messageFromClient = bufferedReader.readline(); // Read a message from the client's input stream
-                broadcastMessage(messageFromClient);// Broadcast the message to all other clients (TODO: implement the broadcastMessage method)
+                broadcastMessage(messageFromClient);// Broadcast the message to all other clients 
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
                 break;// If an exception occurs (e.g., the client disconnects), close the client's resources and break the loop
 
+            }
+        }
+    }
+    
+    public void broadcastMessage(String messageToSend) {
+        for (ClientHandler clientHandler : clienHandlers) {
+            try {
+                if (!clientHandler.clientUsername.equals(clientUsername)) {
+                    clientHandler.bufferedWriter.write(messageToSend);
+                    clientHandler.bufferedWriter.newLine();
+                    clientHandler.bufferedWriter.flush();
+                }
+            } catch (IOException e) {
+                closeEverything(socket, bufferedReader, bufferedWriter);
             }
         }
     }
