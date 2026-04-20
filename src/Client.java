@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.net.Socket;
 import java.io.*;
 import java.util.Scanner;
@@ -22,22 +21,21 @@ public class Client {
     }
     
     public void sendMessage() {// Send a message to the server
-        try {
-            bufferedWriter.write(username);// Write the client's username to the output stream
-            bufferedWriter.newLine();// Add a new line after the username
-            bufferedWriter.flush();// Flush the output stream to ensure the username is sent
+    try (Scanner scanner = new Scanner(System.in)) { // Use try-with-resources to auto-close the scanner
+        bufferedWriter.write(username);// Write the client's username to the output stream
+        bufferedWriter.newLine();// Add a new line after the username
+        bufferedWriter.flush();// Flush the output stream to ensure the username is sent
 
-            Scanner scanner = new Scanner(System.in);// Read messages from the console and send them to the server
-            while (socket.isConnected()) {// While the socket is connected, read messages from the console and send them to the server
-                String messageToSend = scanner.nextLine();// Read a message from the console
-                bufferedWriter.write(username + ": " + messageToSend);// Write the message to the output stream, prefixed with the client's username
-                bufferedWriter.newLine();// Add a new line after the message
-                bufferedWriter.flush();// Flush the output stream to ensure the message is sent
-            }
-        } catch (IOException e) {
-            closeEverything(socket, bufferedReader, bufferedWriter);
+        while (socket.isConnected()) {// While the socket is connected, read messages from the console and send them to the server
+            String messageToSend = scanner.nextLine();// Read a message from the console
+            bufferedWriter.write(username + ": " + messageToSend);// Write the message to the output stream, prefixed with the client's username
+            bufferedWriter.newLine();// Add a new line after the message
+            bufferedWriter.flush();// Flush the output stream to ensure the message is sent
         }
+    } catch (IOException e) {
+        closeEverything(socket, bufferedReader, bufferedWriter);
     }
+}
 
     public void listenForMessage() {// Listen for messages from the server and print them to the console
         new Thread(new Runnable() {// Create a new thread to listen for messages from the server
