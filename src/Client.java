@@ -32,10 +32,10 @@ public class Client {
             bufferedWriter.newLine();// Add a new line after the message
             bufferedWriter.flush();// Flush the output stream to ensure the message is sent
         }
-    } catch (IOException e) {
-        closeEverything(socket, bufferedReader, bufferedWriter);
+        } catch (IOException e) {
+            closeEverything(socket, bufferedReader, bufferedWriter);
+        }
     }
-}
 
     public void listenForMessage() {// Listen for messages from the server and print them to the console
         new Thread(new Runnable() {// Create a new thread to listen for messages from the server
