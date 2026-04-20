@@ -56,15 +56,23 @@ public class ClientHandler implements Runnable {
     
     public void broadcastMessage(String messageToSend) {
         for (ClientHandler clientHandler : clienHandlers) {
-            try {
+            try {// Broadcast the message to all clients except the sender
                 if (!clientHandler.clientUsername.equals(clientUsername)) {
-                    clientHandler.bufferedWriter.write(messageToSend);
-                    clientHandler.bufferedWriter.newLine();
-                    clientHandler.bufferedWriter.flush();
+                    clientHandler.bufferedWriter.write(messageToSend);// Write the message to the client's output stream
+                    clientHandler.bufferedWriter.newLine();// Add a new line after the message
+                    clientHandler.bufferedWriter.flush();// Flush the output stream to ensure the message is sent
                 }
             } catch (IOException e) {
-                closeEverything(socket, bufferedReader, bufferedWriter);
+                closeEverything(socket, bufferedReader, bufferedWriter);// If an exception occurs while broadcasting, close the client's resources
             }
         }
     }
+
+    public void removeClientHandler() {
+        clienHandlers.remove(this);// Remove the client from the list of connected clients
+        broadcastMessage("Server: " + clientUsername + " has left the chat!");// Broadcast a message to all clients that the client has left
+    }
+
+    
+
 }
