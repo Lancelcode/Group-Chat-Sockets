@@ -2,10 +2,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class server {
+public class Server {
     private ServerSocket serverSocket;
 
-    public server(ServerSocket serverSocket) {
+    public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
     
@@ -37,7 +37,7 @@ public class server {
     public static void main(String[] args) throws IOException {
         try {
             ServerSocket serverSocket = new ServerSocket(1234);
-            Server server = new server(serverSocket);
+            Server server = new Server(serverSocket);
             System.out.println("Server is listening on port 1234...");
             server.startServer();
             } catch (IOException e) {

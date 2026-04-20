@@ -11,10 +11,10 @@ public class ClientHandler implements Runnable {
     // Basically anything you need to share with other users in the same server 
     // For example, you can have a list of all connected clients to broadcast messages to them.
     public static ArrayList<ClientHandler> clienHandlers = new ArrayList<>();
-    Private Socket socket;
-    Private BufferedReader bufferedReader;
+    private Socket socket;
+    private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-    private string clientUsername;
+    private String clientUsername;
 
     public ClientHandler(Socket socket) {
         try {
@@ -44,7 +44,7 @@ public class ClientHandler implements Runnable {
         String messageFromClient;
         while (socket.isConnected()) {
             try {
-                messageFromClient = bufferedReader.readline(); // Read a message from the client's input stream
+                messageFromClient = bufferedReader.readLine(); // Read a message from the client's input stream
                 broadcastMessage(messageFromClient);// Broadcast the message to all other clients 
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);

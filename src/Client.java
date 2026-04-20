@@ -7,21 +7,21 @@ public class Client {
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-    private String clientUsername;
+    private String username;
 
-    public Client(Socket socket) {
+    public Client(Socket socket , String username) {
         try {
             this.socket = socket;
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.clientUsername = bufferedReader.readLine();
-            System.out.println("Client " + clientUsername + " has connected!");// Print a message to the console that a new client has connected
+            this.username = username;
+            System.out.println("Client " + username + " has connected!");// Print a message to the console that a new client has connected
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
     }
     
-    public void sendMessage(String messageToSend) {// Send a message to the server
+    public void sendMessage() {// Send a message to the server
         try {
             bufferedWriter.write(username);// Write the client's username to the output stream
             bufferedWriter.newLine();// Add a new line after the username
