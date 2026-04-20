@@ -5,7 +5,7 @@ import java.net.Socket;
 public class server {
     private ServerSocket serverSocket;
 
-    public ServerSocket serverSocket) {
+    public server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
     
@@ -20,6 +20,7 @@ public class server {
             }
 
     } catch (IOException e) {
+        closeServerSocket();}
 
     }
 
@@ -33,13 +34,16 @@ public class server {
         }
     }
 
-    Public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         try {
             ServerSocket serverSocket = new ServerSocket(1234);
             Server server = new server(serverSocket);
             System.out.println("Server is listening on port 1234...");
             server.startServer();
-        } catch (IOException e) {
-            e.printStackTrace();
-}
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+    }
+
+}
