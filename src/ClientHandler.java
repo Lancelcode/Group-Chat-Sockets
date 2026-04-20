@@ -73,6 +73,20 @@ public class ClientHandler implements Runnable {
         broadcastMessage("Server: " + clientUsername + " has left the chat!");// Broadcast a message to all clients that the client has left
     }
 
-    
-
+    public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+        removeClientHandler();// Remove the client from the list of connected clients
+        try {
+            if (bufferedReader != null) {
+                bufferedReader.close();// Close the client's input stream
+            }
+            if (bufferedWriter != null) {
+                bufferedWriter.close();// Close the client's output stream
+            }
+            if (socket != null) {
+                socket.close();// Close the client's socket
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
